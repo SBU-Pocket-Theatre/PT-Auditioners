@@ -16,6 +16,7 @@ if (Path("./shows.json").exists()):
 
 window = tk.Tk()
 window.geometry("500x500")
+window.title("PT-Auditioners")
 main_frame = tk.Frame(window, height=500, width=500)
 load_frame = tk.Frame(window, height=500, width=500)
 create_frame = tk.Frame(window, height=500, width=500)
@@ -35,8 +36,6 @@ def save_show(name, roles_text, error_lbl):
     global window
     global show_name
     global roles_list
-    print(name.get())
-    print(roles_text.get("1.0", "end-1c"))
     error_lbl.config(text="")
     if (name.get().strip() == ""):
         error_lbl.config(text="Please name your show!")
@@ -51,7 +50,6 @@ def save_show(name, roles_text, error_lbl):
             return
         roles_list.append(role.strip())
     roles_list = list(set(roles_list))
-    print(roles_list)
     data[name.get()] = roles_list
     f = open("./shows.json", "w")
     json.dump(data, f)
@@ -67,7 +65,6 @@ def load_show(name):
     global run_frame
     global show_name
     global roles_list
-    print(name.get())
     roles_list = data[name.get()]
     show_name.config(text=name.get())
     switch_frame(run_frame)
@@ -234,7 +231,6 @@ def load_input(error_lbl):
     for row in csv_r:
         if count == 0:
             name = row[0]
-            print(name.strip())
             if (name.strip() != show_name["text"]):
                 error_lbl.config(text="Show name does not match currently loaded show!")
                 return
@@ -245,7 +241,6 @@ def load_input(error_lbl):
                     temp_data[row[0]].append(role.strip())
 
         count += 1
-    print(temp_data)
     for name in temp_data.keys():
         for role in temp_data[name]:
             if (role not in roles_list):
