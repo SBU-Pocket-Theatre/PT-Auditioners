@@ -6,11 +6,3 @@ You can download the latest release [here](https://github.com/SBU-Pocket-Theatre
 
 
 \[setup instructions and documentation to come]
-
-
-
-TODO:
-
-* This program is in dire need of a GUI :(
-* Sample data
-* Being able to edit the role list without changing the code XD
