@@ -2,13 +2,7 @@
 
 This code determines which characters a person on a production team who auditioned can see during callbacks.
 
-You can download the latest release [here](https://github.com/SBU-Pocket-Theatre/PT-Auditioners/releases). Currently it is only available for Windows, but you could probably run it with Wine on MacOS/Linux.
-
-## Setup (Windows)
-Simply download the latest release and run the exe file.
-
-## Setup (MacOS/Linux)
-This is not officially supported, but you can try and run the exe through [Wine](https://www.winehq.org/).
+You can download the latest release [here](https://github.com/SBU-Pocket-Theatre/PT-Auditioners/releases). Download the version for your operating system.
 
 ## Documentation
 ### Creating A Show
