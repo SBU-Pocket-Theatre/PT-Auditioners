@@ -30,7 +30,7 @@ jobs:
 
     - name: Build executable
       run: |
-        pyinstaller --onefile ${{ env.MAIN_PY_FILE }}
+        pyinstaller --onefile --windowed ${{ env.MAIN_PY_FILE }}
       working-directory: ./
 
     - name: Create Artifact (Windows)

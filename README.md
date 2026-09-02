@@ -2,7 +2,7 @@
 
 This code determines which characters a person on a production team who auditioned can see during callbacks.
 
-You can download the latest release [here](https://github.com/SBU-Pocket-Theatre/PT-Auditioners/releases). Download the version for your operating system.
+You can download the latest release [here](https://github.com/SBU-Pocket-Theatre/PT-Auditioners/releases).
 
 ## Documentation
 ### Creating A Show

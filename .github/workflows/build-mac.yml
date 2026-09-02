@@ -1,0 +1,56 @@
+name: Build and Release macOS App
+
+on:
+  workflow_dispatch:
+    inputs:
+        tag:
+          description: 'Release tag'
+          required: true
+          type: string
+          
+permissions:
+  contents: write # Crucial: Allows the pipeline to create releases and upload files
+
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-level: '3.12' # Change to your preferred Python version
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r requirements.txt
+
+      - name: Compile App with PyInstaller
+        run: |
+          pyinstaller --windowed --noconsole gui.py
+
+      - name: Zip App Bundle Correctly
+        run: |
+          cd dist
+          zip -r ../gui.app.zip gui.app
+          cd ..
+
+      - name: Create GitHub Release and Upload Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: gui.app.zip
+          tag_name: ${{ inputs.tag }}
+          body: |
+            ## Installation for macOS Users
+            Because this app is unsigned, macOS will block it by default. 
+            
+            **To open it:**
+            1. Download and unzip `file.app.zip`.
+            2. **Right-click** (or `Control` + click) `file.app` and select **Open**.
+            3. Click **Open** on the security dialog box.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
