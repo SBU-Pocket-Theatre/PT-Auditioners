@@ -2,7 +2,12 @@ name: Build and Release macOS App
 
 on:
   workflow_dispatch:
-
+    inputs:
+        tag:
+          description: 'Release tag'
+          required: true
+          type: string
+          
 permissions:
   contents: write # Crucial: Allows the pipeline to create releases and upload files
 
@@ -38,6 +43,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: gui.app.zip
+          tag_name: ${{ inputs.tag }}
           body: |
             ## Installation for macOS Users
             Because this app is unsigned, macOS will block it by default. 
