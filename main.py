@@ -3,6 +3,7 @@ import pygraphviz
 import tkinter as tk
 from tkinter import filedialog
 from pathlib import Path
+from platformdirs import user_data_dir
 
 def run(role_list, data):
     # # This expects a CSV, with NO HEADER. The first column is a person's name, and each following column contains a SINGLE role.
@@ -119,10 +120,13 @@ def run(role_list, data):
             if (save_graph != "Y" and save_graph != "N"):
                 print("Please respond with Y or N.")
         if (save_graph == "Y"):
+            app_data_path = Path(user_data_dir("PTAuditioners", "MichaelBorczuk"))
+            app_data_path.mkdir(parents=True, exist_ok=True)
+            graph_path = app_data_path / f"{pt_name}.png"
             A = nx.nx_agraph.to_agraph(G)
             A.layout(prog='dot')
-            A.draw(f"{pt_name}.png")
-            print(f"Graph saved to {pt_name}.png!")
+            A.draw(graph_path)
+            print(f"Graph saved to {graph_path}")
 
 
         

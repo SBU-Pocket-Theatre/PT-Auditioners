@@ -5,14 +5,17 @@ from pathlib import Path
 from main import run
 import csv
 import copy
+from platformdirs import user_data_dir
 
+app_data_path = Path(user_data_dir("PTAuditioners", "MichaelBorczuk"))
+app_data_path.mkdir(parents=True, exist_ok=True)
+shows_path = Path(app_data_path) / "shows.json"
+print(shows_path)
 data = {}
-if (Path("./shows.json").exists()):
-    f = open("./shows.json", "r")
+if (Path(shows_path).exists()):
+    f = open(shows_path, "r")
     data = json.load(f)
     f.close()
-# else:
-#     f = open("./shows.json", "w")
 
 window = tk.Tk()
 window.geometry("500x500")
@@ -51,7 +54,7 @@ def save_show(name, roles_text, error_lbl):
         roles_list.append(role.strip())
     roles_list = list(set(roles_list))
     data[name.get()] = roles_list
-    f = open("./shows.json", "w")
+    f = open(shows_path, "w")
     json.dump(data, f)
     f.close()
     show_name.config(text=name.get())
