@@ -13,6 +13,7 @@ jobs:
 
     env:
       MAIN_PY_FILE: 'gui.py'
+      APP_NAME: 'PT-Auditioners'
 
     steps:
     - name: Checkout code
@@ -30,7 +31,7 @@ jobs:
 
     - name: Build executable
       run: |
-        pyinstaller --onefile -n PT-Auditioners ${{ env.MAIN_PY_FILE }}
+        pyinstaller --onefile --name "${{ env.APP_NAME }}" ${{ env.MAIN_PY_FILE }}
       working-directory: ./
 
     - name: Create macOS Double-Clickable Script & Zip
@@ -40,31 +41,31 @@ jobs:
         echo '#!/bin/sh' > LaunchApp.command
         echo 'DIR=$(dirname "$0")' >> LaunchApp.command
         echo 'cd "$DIR"' >> LaunchApp.command
-        echo './gui' >> LaunchApp.command
+        echo './"${{ env.APP_NAME }}"' >> LaunchApp.command
         chmod +x LaunchApp.command
-        zip -r ../gui_mac.zip gui LaunchApp.command
+        zip -r ../PT-Auditioners.zip "${{ env.APP_NAME }}" LaunchApp.command
       working-directory: ./
 
     - name: Create Artifact (Windows)
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v4
       with:
-        name: windows-executables
+        name: PT-Auditioners-windows
         path: dist/
 
     - name: Create Artifact (Linux)
       if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v4
       with:
-        name: linux-executables
+        name: PT-Auditioners-linux
         path: dist/
 
     - name: Create Artifact (macOS)
       if: matrix.os == 'macos-15-intel'
       uses: actions/upload-artifact@v4
       with:
-        name: macos-executables
-        path: gui_mac.zip
+        name: PT-Auditioners-mac
+        path: PT-Auditioners.zip
 
     - name: List files in dist folder
       run: ls -R ./dist/
