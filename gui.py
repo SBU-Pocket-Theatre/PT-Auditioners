@@ -221,13 +221,19 @@ def load_input(error_lbl):
     global show_name
     global roles_list
     try:
-        f = tk.filedialog.askopenfile(mode='r', filetypes=[("CSV File", "*.csv")])
+        fn = tk.filedialog.askopenfilename(filetypes=[("CSV File", "*.csv")])
     except Exception:
         error_lbl.config(text="An error occurred reading the file (try closing it if it's open).")
         return
     
-    if (f == None):
+    if (fn == ""):
         return
+    try:
+        f = open(fn, mode='r')
+    except Exception:
+        error_lbl.config(text="An error occurred reading the file (try closing it if it's open).")
+        return
+    
     temp_data = {}
     csv_r = csv.reader(f, delimiter=",")
     count = 0
