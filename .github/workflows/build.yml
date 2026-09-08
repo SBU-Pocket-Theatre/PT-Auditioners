@@ -12,7 +12,7 @@ jobs:
         os: ['windows-latest', 'ubuntu-latest', 'macos-15-intel']
 
     env:
-      MAIN_PY_FILE: 'gui.py'  # Define the path to your main.py file here
+      MAIN_PY_FILE: 'gui.py'
 
     steps:
     - name: Checkout code
@@ -29,10 +29,20 @@ jobs:
       working-directory: ./
 
     - name: Build executable
-      env:
-        PYINSTALLER_ARCH: ${{ runner.os == 'macOS' && '--target-architecture=x86_64' || '' }}
       run: |
-        pyinstaller --onefile ${{ env.PYINSTALLER_ARCH }} ${{ env.MAIN_PY_FILE }}
+        pyinstaller --onefile ${{ env.MAIN_PY_FILE }}
+      working-directory: ./
+
+    - name: Create macOS Double-Clickable Script & Zip
+      if: matrix.os == 'macos-15-intel'
+      run: |
+        cd dist
+        echo '#!/bin/sh' > LaunchApp.command
+        echo 'DIR=$(dirname "$0")' >> LaunchApp.command
+        echo 'cd "$DIR"' >> LaunchApp.command
+        echo './gui' >> LaunchApp.command
+        chmod +x LaunchApp.command
+        zip -r ../gui_mac.zip gui LaunchApp.command
       working-directory: ./
 
     - name: Create Artifact (Windows)
@@ -54,7 +64,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: macos-executables
-        path: dist/
+        path: gui_mac.zip
 
     - name: List files in dist folder
       run: ls -R ./dist/
