@@ -30,7 +30,7 @@ jobs:
 
     - name: Build executable
       env:
-        PYINSTALLER_ARCH: ${{ runner.os == 'macOS' && '--target-architecture=universal2' || '' }}
+        PYINSTALLER_ARCH: ${{ runner.os == 'macOS' && '--target-architecture=x86_64' || '' }}
       run: |
         pyinstaller --onefile ${{ env.PYINSTALLER_ARCH }} ${{ env.MAIN_PY_FILE }}
       working-directory: ./
