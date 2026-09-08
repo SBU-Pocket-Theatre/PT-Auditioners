@@ -43,7 +43,6 @@ jobs:
         echo 'cd "$DIR"' >> LaunchApp.command
         echo './"${{ env.APP_NAME }}"' >> LaunchApp.command
         chmod +x LaunchApp.command
-        zip -r ../PT-Auditioners.zip "${{ env.APP_NAME }}" LaunchApp.command
       working-directory: ./
 
     - name: Create Artifact (Windows)
@@ -65,7 +64,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: PT-Auditioners-mac
-        path: PT-Auditioners.zip
+        path: dist/
 
     - name: List files in dist folder
       run: ls -R ./dist/
