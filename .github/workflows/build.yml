@@ -29,8 +29,10 @@ jobs:
       working-directory: ./
 
     - name: Build executable
+      env:
+        PYINSTALLER_ARCH: ${{ runner.os == 'macOS' && '--target-architecture=universal2' || '' }}
       run: |
-        pyinstaller --onefile --windowed ${{ env.MAIN_PY_FILE }}
+        pyinstaller --onefile ${{ env.PYINSTALLER_ARCH }} ${{ env.MAIN_PY_FILE }}
       working-directory: ./
 
     - name: Create Artifact (Windows)
